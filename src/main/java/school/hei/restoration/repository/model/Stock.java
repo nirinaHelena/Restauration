@@ -5,7 +5,7 @@ import java.time.Instant;
 public record Stock (
         int id,
         Restaurant restaurant,
-        Ingredient ingredient,
+        IngredientTemplate ingredientTemplate,
         Instant date,
         double quantity){
 }
