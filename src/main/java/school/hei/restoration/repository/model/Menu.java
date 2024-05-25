@@ -12,6 +12,6 @@ public final class Menu {
     private final int id;
     private final String name;
     @NonNull
-    private PriceMenu priceMenu;
+    private MenuPrices menuPrices;
     private final Set<Ingredient> ingredients;
 }

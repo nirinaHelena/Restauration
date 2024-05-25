@@ -4,6 +4,6 @@ import java.util.Set;
 
 public record Restaurant (
         int id,
-        String localisation,
+        String location,
         Set<Menu> menus){
 }
