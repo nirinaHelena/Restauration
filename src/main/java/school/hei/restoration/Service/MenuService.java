@@ -32,4 +32,7 @@ public class MenuService {
     public void addIngredientToAMenu(Ingredient ingredient){
         ingredientRepo.save(ingredient);
     }
+    public void modifyAnIngredientToAMenu(Ingredient ingredient){
+        ingredientRepo.updateIngredient(ingredient);
+    }
 }

@@ -60,4 +60,18 @@ public class IngredientRepo {
             throw new RuntimeException(e);
         }
     }
+
+    public void updateIngredient(Ingredient ingredient) {
+        String sql = """
+                update ingredient set quantity_required = ? where ingredient.id = ?;
+                """;
+        try (PreparedStatement statement = connection.getConnection().prepareStatement(sql)){
+            statement.setDouble(1, ingredient.getQuantityRequired());
+            statement.setInt(2, ingredient.getId());
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
