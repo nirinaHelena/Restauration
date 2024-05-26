@@ -9,9 +9,9 @@ import java.sql.SQLException;
 
 @Configuration
 public class Database {
-    private String url;
-    private String user;
-    private String password;
+    private final String url;
+    private final String user;
+    private final String password;
 
     public Database() {
         this.url = System.getenv("url");
