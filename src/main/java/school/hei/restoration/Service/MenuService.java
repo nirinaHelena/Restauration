@@ -26,13 +26,16 @@ public class MenuService {
             throw new RuntimeException(e);
         }
     }
-    public List<Ingredient> getAllIngredientOfAMenu(Menu menu){
+    public List<Ingredient> getAllMenuIngredient(Menu menu){
         return ingredientRepo.getIngredientByMenu(menu);
     }
     public void addIngredientToAMenu(Ingredient ingredient){
         ingredientRepo.save(ingredient);
     }
-    public void modifyAnIngredientToAMenu(Ingredient ingredient){
+    public void modifyAMenuIngredient(Ingredient ingredient){
         ingredientRepo.updateIngredient(ingredient);
+    }
+    public void deleteMenuIngredient(Ingredient ingredient){
+        ingredientRepo.deleteMenuIngredient(ingredient);
     }
 }

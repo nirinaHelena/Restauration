@@ -74,4 +74,17 @@ public class IngredientRepo {
             throw new RuntimeException(e);
         }
     }
+
+    public void deleteMenuIngredient(Ingredient ingredient) {
+        String sql = """
+                delete from ingredient where id = ?;
+                """;
+        try (PreparedStatement statement = connection.getConnection().prepareStatement(sql)){
+            statement.setInt(1, ingredient.getId());
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
