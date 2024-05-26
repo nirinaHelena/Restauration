@@ -1,9 +1,19 @@
 package school.hei.restoration.repository.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.util.Set;
 
-public record Restaurant (
-        int id,
-        String location,
-        Set<Menu> menus){
+@AllArgsConstructor
+@Data
+public final class Restaurant {
+    private final int id;
+    private final String location;
+    private Set<Menu> menus;
+
+    public Restaurant(int id, String location) {
+        this.id = id;
+        this.location = location;
+    }
 }

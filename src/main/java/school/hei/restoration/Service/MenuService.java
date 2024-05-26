@@ -3,9 +3,12 @@ package school.hei.restoration.Service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import school.hei.restoration.repository.*;
+import school.hei.restoration.repository.dto.AllMenuSaleAtDate;
+import school.hei.restoration.repository.dto.MenuNumberSale;
 import school.hei.restoration.repository.model.*;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,6 +19,7 @@ public class MenuService {
     private final StockRepo stockRepo;
     private final MovementRepo movementRepo;
     private final MenuHistorySaleRepo menuHistorySaleRepo;
+    private final RestaurantRepo restaurantRepo;
 
     public void save(Menu menu){
         try {
@@ -40,7 +44,7 @@ public class MenuService {
     public void deleteMenuIngredient(Ingredient ingredient){
         ingredientRepo.deleteMenuIngredient(ingredient);
     }
-    private boolean checkIfIngredientRequiredIsOk(Menu menu, Restaurant restaurant, List<Ingredient> ingredients){
+    private boolean checkIfIngredientRequiredIsOk( Restaurant restaurant, List<Ingredient> ingredients){
         for (Ingredient ingredient : ingredients) {
             double stock = stockRepo.currentQuantity(restaurant, ingredient.getIngredientTemplate()).quantity();
             if (ingredient.getQuantityRequired() > stock) {
@@ -52,7 +56,7 @@ public class MenuService {
     public boolean saleMenu(Menu menu, Restaurant restaurant){
         Instant now = Instant.now();
         List<Ingredient> ingredients = ingredientRepo.getIngredientByMenu(menu);
-        if (!checkIfIngredientRequiredIsOk(menu, restaurant, ingredients)){
+        if (!checkIfIngredientRequiredIsOk(restaurant, ingredients)){
             return false;
         }
         for (Ingredient ingredient : ingredients) {
@@ -62,7 +66,23 @@ public class MenuService {
             double quantity = currentQuantity - ingredient.getQuantityRequired();
             stockRepo.save(new Stock(1, restaurant, ingredient.getIngredientTemplate(), now, quantity));
         }
-        menuHistorySaleRepo.save(new MenuHistorySale(1, now, menu));
+        menuHistorySaleRepo.save(new MenuHistorySale(1, now, menu, restaurant));
         return true;
+    }
+    public List<AllMenuSaleAtDate> getAllMenuSaleAtDate(Instant begin, Instant end){
+        List<AllMenuSaleAtDate> allMenuSaleAtDates = new ArrayList<>();
+        List<Menu> menus = menuRepo.findAll();
+        List<Restaurant> restaurants = restaurantRepo.findAll();
+
+        for (Restaurant restaurant : restaurants) {
+            List<MenuNumberSale> menuNumberSales = new ArrayList<>();
+            for(Menu menu : menus){
+                int numberOfMenuSale = menuHistorySaleRepo.countMenuSalePerMenu(restaurant, menu, begin, end);
+                double amountOfMenuSale = menu.getMenuPrices().price() * numberOfMenuSale;
+                menuNumberSales.add(new MenuNumberSale(menu, numberOfMenuSale, amountOfMenuSale));
+            }
+            allMenuSaleAtDates.add(new AllMenuSaleAtDate(restaurant, menuNumberSales));
+        }
+        return allMenuSaleAtDates;
     }
 }

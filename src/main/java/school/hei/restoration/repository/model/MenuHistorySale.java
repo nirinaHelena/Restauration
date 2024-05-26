@@ -5,6 +5,7 @@ import java.time.Instant;
 public record MenuHistorySale(
         int id,
         Instant date,
-        Menu menu
+        Menu menu,
+        Restaurant restaurant
 ) {
 }

@@ -1,5 +1,6 @@
 package school.hei.restoration.repository;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import school.hei.restoration.config.Database;
 import school.hei.restoration.repository.model.IngredientTemplate;
@@ -9,6 +10,7 @@ import school.hei.restoration.repository.model.Stock;
 import java.sql.*;
 
 @Repository
+@AllArgsConstructor
 public class StockRepo {
     private Database connection;
     public void save(Stock stock){
@@ -18,7 +20,7 @@ public class StockRepo {
                 """;
         try (PreparedStatement statement = connection.getConnection().prepareStatement(sql)){
             statement.setDouble(1, stock.quantity());
-            statement.setInt(2, stock.restaurant().id());
+            statement.setInt(2, stock.restaurant().getId());
             statement.setInt(3, stock.ingredientTemplate().getId());
             statement.setTimestamp(4, Timestamp.from(stock.date()));
             statement.executeUpdate();
@@ -36,7 +38,7 @@ public class StockRepo {
                 """;
         try (PreparedStatement statement = connection.getConnection().prepareStatement(sql)){
             statement.setInt(1, ingredientTemplate.getId());
-            statement.setInt(2, restaurant.id());
+            statement.setInt(2, restaurant.getId());
 
             ResultSet resultSet = statement.executeQuery();
             return new Stock(

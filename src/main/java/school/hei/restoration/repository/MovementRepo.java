@@ -47,7 +47,7 @@ public class MovementRepo {
         try (PreparedStatement statement = connection.getConnection().prepareStatement(sql)){
             statement.setTimestamp(1, Timestamp.from(begin));
             statement.setTimestamp(2, Timestamp.from(end));
-            statement.setInt(3, restaurant.id());
+            statement.setInt(3, restaurant.getId());
 
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
