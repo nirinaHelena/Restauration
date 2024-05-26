@@ -2,7 +2,9 @@ package school.hei.restoration.repository;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
+import school.hei.restoration.NotImplemented;
 import school.hei.restoration.config.Database;
+import school.hei.restoration.repository.model.IngredientTemplate;
 import school.hei.restoration.repository.model.Unity;
 
 import java.sql.PreparedStatement;
@@ -11,19 +13,24 @@ import java.sql.SQLException;
 
 @Repository
 @AllArgsConstructor
-public class UnityRepo {
+public class IngredientTemplateRepo {
+    private final UnityRepo unityRepo;
     private Database connection;
-    public Unity getUnityById(int id){
+
+    public IngredientTemplate getById(int id){
         String sql = """
-                select * from unity where id = ?;
+                select * from ingreditent_template where id = ?;
                 """;
         try (PreparedStatement statement = connection.getConnection().prepareStatement(sql)){
             statement.setInt(1, id);
+
             ResultSet resultSet = statement.executeQuery();
-            return new Unity(
+            Unity unity = unityRepo.getUnityById(resultSet.getInt("id_unity"));
+            return new IngredientTemplate(
                     resultSet.getInt("id"),
-                    resultSet.getString("name")
-            );
+                    resultSet.getString("name"),
+                    resultSet.getDouble("price"),
+                    unity);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
