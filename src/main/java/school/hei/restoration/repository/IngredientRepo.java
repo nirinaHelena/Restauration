@@ -18,6 +18,7 @@ import java.util.List;
 public class IngredientRepo {
     private final Database connection;
     private final IngredientTemplateRepo ingredientTemplateRepo;
+    private final MenuRepo menuRepo;
 
     public void save(Ingredient ingredient){
         String sql = """
@@ -80,6 +81,21 @@ public class IngredientRepo {
             statement.setInt(1, ingredient.getId());
 
             statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public Menu menuWhereIngredientIsMostUsed(IngredientTemplate ingredientTemplate){
+        String sql = """
+             select * from ingredient
+             where id_ingredient_template = ?
+             order by quantity_required desc limit 1;
+             """;
+        try (PreparedStatement statement = connection.getConnection().prepareStatement(sql)){
+            statement.setInt(1, ingredientTemplate.getId());
+
+            ResultSet resultSet = statement.executeQuery();
+            return menuRepo.getMenuById(resultSet.getInt("id_menu"));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -12,4 +12,9 @@ public final class Menu {
     private final String name;
     private MenuPrices menuPrices;
     private List<Ingredient> ingredients;
+
+    public Menu(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

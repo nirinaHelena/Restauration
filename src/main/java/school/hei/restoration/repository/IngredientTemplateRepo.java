@@ -2,7 +2,6 @@ package school.hei.restoration.repository;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
-import school.hei.restoration.NotImplemented;
 import school.hei.restoration.config.Database;
 import school.hei.restoration.repository.model.IngredientTemplate;
 import school.hei.restoration.repository.model.Unity;

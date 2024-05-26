@@ -7,5 +7,6 @@ create table if not exists movement(
     date timestamp without time zone default now(),
     id_ingredient_template int references ingreditent_template(id),
     movement_type movement_type not null ,
-    quantity double precision not null
+    quantity double precision not null,
+    id_restaurant int references restaurant(id)
 );

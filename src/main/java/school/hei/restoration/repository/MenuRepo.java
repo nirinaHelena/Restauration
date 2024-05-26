@@ -6,7 +6,12 @@ import school.hei.restoration.config.Database;
 import school.hei.restoration.repository.model.Menu;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class MenuRepo {
@@ -18,6 +23,22 @@ public class MenuRepo {
         try (PreparedStatement statement = connection.getConnection().prepareStatement(sql)){
             statement.setString(1, menu.getName());
             statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public Menu getMenuById(int id){
+        String sql = """
+                select  * from menu where id = ?
+                """;
+        try (PreparedStatement statement = connection.getConnection().prepareStatement(sql)){
+            statement.setInt(1, id);
+
+            ResultSet resultSet = statement.executeQuery();
+            return new Menu(
+                    resultSet.getInt("id"),
+                    resultSet.getString("name")
+            );
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

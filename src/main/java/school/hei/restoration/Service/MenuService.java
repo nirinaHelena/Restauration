@@ -57,7 +57,7 @@ public class MenuService {
         }
         for (Ingredient ingredient : ingredients) {
             movementRepo.save(new Movement(1, now, ingredient.getIngredientTemplate(), MovementType.SALE,
-                    ingredient.getQuantityRequired()));
+                    ingredient.getQuantityRequired(), restaurant));
             double currentQuantity = stockRepo.currentQuantity(restaurant, ingredient.getIngredientTemplate()).quantity();
             double quantity = currentQuantity - ingredient.getQuantityRequired();
             stockRepo.save(new Stock(1, restaurant, ingredient.getIngredientTemplate(), now, quantity));

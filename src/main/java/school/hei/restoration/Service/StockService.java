@@ -6,6 +6,7 @@ import school.hei.restoration.repository.MovementRepo;
 import school.hei.restoration.repository.StockRepo;
 import school.hei.restoration.repository.model.Movement;
 import school.hei.restoration.repository.model.MovementType;
+import school.hei.restoration.repository.model.Restaurant;
 import school.hei.restoration.repository.model.Stock;
 
 import java.time.Instant;
@@ -29,7 +30,8 @@ public class StockService {
                     stock.date(),
                     stock.ingredientTemplate(),
                     MovementType.SUPPLY,
-                    stock.quantity()
+                    stock.quantity(),
+                    stock.restaurant()
             );
             movementRepo.save(movement);
             return currentStock;
@@ -37,7 +39,7 @@ public class StockService {
             throw new RuntimeException(e);
         }
     }
-    public List<Movement> getStockDetailsAtDate(Instant begin, Instant end){
-        return movementRepo.getAllMovementAtDate(begin, end);
+    public List<Movement> getStockDetailsAtDate(Restaurant restaurant, Instant begin, Instant end){
+        return movementRepo.getAllMovementAtDate(restaurant, begin, end);
     }
 }
