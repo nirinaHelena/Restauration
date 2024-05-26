@@ -29,4 +29,7 @@ public class MenuService {
     public List<Ingredient> getAllIngredientOfAMenu(Menu menu){
         return ingredientRepo.getIngredientByMenu(menu);
     }
+    public void addIngredientToAMenu(Ingredient ingredient){
+        ingredientRepo.save(ingredient);
+    }
 }
