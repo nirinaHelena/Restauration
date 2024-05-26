@@ -10,5 +10,4 @@ public final class Ingredient {
     private final Menu menu;
     private final IngredientTemplate ingredientTemplate;
     private final double quantityRequired;
-    private final Unity unity;
 }
