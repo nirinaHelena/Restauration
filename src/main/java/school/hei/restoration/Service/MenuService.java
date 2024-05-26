@@ -7,6 +7,8 @@ import school.hei.restoration.repository.MenuRepo;
 import school.hei.restoration.repository.model.Ingredient;
 import school.hei.restoration.repository.model.Menu;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class MenuService {
@@ -23,5 +25,8 @@ public class MenuService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+    public List<Ingredient> getAllIngredientOfAMenu(Menu menu){
+        return ingredientRepo.getIngredientByMenu(menu);
     }
 }

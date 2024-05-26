@@ -53,6 +53,7 @@ public class IngredientRepo {
                         ingredientTemplate,
                         resultSet.getDouble("quantity_required")
                 ));
+                return ingredients;
             }
             return ingredients;
         } catch (SQLException e) {
