@@ -1,8 +1,6 @@
 package school.hei.restoration.repository;
 
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
-import school.hei.restoration.NotImplemented;
 import school.hei.restoration.config.Database;
 import school.hei.restoration.repository.model.IngredientTemplate;
 import school.hei.restoration.repository.model.Restaurant;
@@ -30,7 +28,7 @@ public class StockRepo {
     }
     public Stock currentQuantity(Restaurant restaurant, IngredientTemplate ingredientTemplate){
         String sql = """
-                select * from stock s 
+                select * from stock s
                 join restaurant r on s.id_restaurant = r.id
                 join ingreditent_template it on s.id_ingredient_template = it.id
                 where s.id_ingredient_template = ? and s.id_restaurant = ?

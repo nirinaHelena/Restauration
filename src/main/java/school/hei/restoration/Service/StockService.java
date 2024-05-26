@@ -5,15 +5,16 @@ import org.springframework.stereotype.Service;
 import school.hei.restoration.repository.StockRepo;
 import school.hei.restoration.repository.model.Stock;
 
-import java.time.Instant;
 
 @Service
 @AllArgsConstructor
 public class StockService {
     private StockRepo stockRepo;
-    public void supply(Stock stock){
-        double newQuantity = stockRepo.currentQuantity(stock.restaurant(), stock.ingredientTemplate())
-                + stock.quantity();
-        stockRepo.save(Instant.now(), newQuantity);
+    public Stock supply(Stock stock){
+        Stock currentStock = stockRepo.currentQuantity(stock.restaurant(), stock.ingredientTemplate());
+        double newQuantity = currentStock.quantity() + stock.quantity();
+        Stock toSave = new Stock(stock.id(),stock.restaurant(),stock.ingredientTemplate(), stock.date(), newQuantity);
+        stockRepo.save(toSave);
+        return currentStock;
     }
 }
