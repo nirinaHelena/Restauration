@@ -44,17 +44,14 @@ public class IngredientRepo {
         try (PreparedStatement statement = connection.getConnection().prepareStatement(sql)){
             statement.setInt(1, menu.getId());
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()){
-                IngredientTemplate ingredientTemplate = ingredientTemplateRepo.getById(
-                        resultSet.getInt("id_ingredient_template"));
-                ingredients.add(new Ingredient(
-                        resultSet.getInt("id"),
-                        menu,
-                        ingredientTemplate,
-                        resultSet.getDouble("quantity_required")
-                ));
-                return ingredients;
-            }
+            IngredientTemplate ingredientTemplate = ingredientTemplateRepo.getById(
+                    resultSet.getInt("id_ingredient_template"));
+            ingredients.add(new Ingredient(
+                    resultSet.getInt("id"),
+                    menu,
+                    ingredientTemplate,
+                    resultSet.getDouble("quantity_required")
+            ));
             return ingredients;
         } catch (SQLException e) {
             throw new RuntimeException(e);
