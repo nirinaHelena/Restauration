@@ -14,7 +14,7 @@ public class IngredientRepo {
     private final Database connection;
     public void save(Ingredient ingredient){
         String sql = """
-                insert into ingredient (quantity_required, id_ingredient_template, id_menu) 
+                insert into ingredient (quantity_required, id_ingredient_template, id_menu)
                 values (?, ?, ?);
                 """;
         try (PreparedStatement statement = connection.getConnection().prepareStatement(sql)){
