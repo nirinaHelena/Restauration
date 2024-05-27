@@ -39,7 +39,7 @@ public class StockService {
             throw new RuntimeException(e);
         }
     }
-    public List<Movement> getStockDetailsAtDate(Restaurant restaurant, Instant begin, Instant end){
+    public List<Movement> getStockDetailsMovementAtDate(Restaurant restaurant, Instant begin, Instant end){
         return movementRepo.getAllMovementAtDate(restaurant, begin, end);
     }
 }
