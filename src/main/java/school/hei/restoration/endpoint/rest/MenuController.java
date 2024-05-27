@@ -37,4 +37,14 @@ public class MenuController {
         menuService.addIngredientToAMenu(ingredient);
         return new ResponseEntity<>(true, HttpStatus.CREATED);
     }
+    @DeleteMapping("/delete-ingredient-to-menu")
+    public ResponseEntity<Boolean> deleteIngredientToMenu(@RequestBody Ingredient ingredient){
+        menuService.deleteMenuIngredient(ingredient);
+        return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+    @PutMapping("/update-ingredient-to-menu")
+    public ResponseEntity<Boolean> updateIngredientToMenu(@RequestBody Ingredient ingredient){
+        menuService.modifyAMenuIngredient(ingredient);
+        return new ResponseEntity<>(true, HttpStatus.OK);
+    }
 }
