@@ -8,6 +8,7 @@ import school.hei.restoration.Service.MenuService;
 import school.hei.restoration.repository.MenuRepo;
 import school.hei.restoration.repository.model.Ingredient;
 import school.hei.restoration.repository.model.Menu;
+import school.hei.restoration.repository.model.Restaurant;
 
 import java.util.List;
 
@@ -46,5 +47,11 @@ public class MenuController {
     public ResponseEntity<Boolean> updateIngredientToMenu(@RequestBody Ingredient ingredient){
         menuService.modifyAMenuIngredient(ingredient);
         return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+    @PostMapping("/sale/{idMenu}")
+    public ResponseEntity<Boolean> saleMenu(@RequestBody Restaurant restaurant,
+                                            @PathVariable int idMenu){
+        menuService.saleMenu(menuRepo.getMenuById(idMenu), restaurant);
+        return new ResponseEntity<>(true, HttpStatus.CREATED);
     }
 }
