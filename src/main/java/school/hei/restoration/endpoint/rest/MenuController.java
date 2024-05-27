@@ -17,8 +17,8 @@ public class MenuController {
     private final MenuService menuService;
 
     @PostMapping
-    public ResponseEntity<Menu> save(@RequestBody Menu menu){
+    public ResponseEntity<Boolean> save(@RequestBody Menu menu){
         menuService.save(menu);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(true,HttpStatus.CREATED);
     }
 }

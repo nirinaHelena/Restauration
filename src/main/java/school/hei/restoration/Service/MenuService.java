@@ -21,13 +21,14 @@ public class MenuService {
     private final MenuHistorySaleRepo menuHistorySaleRepo;
     private final RestaurantRepo restaurantRepo;
 
-    public void save(Menu menu){
+    public boolean save(Menu menu){
         try {
             for (int i = 0; i < menu.getIngredients().size(); i++) {
                 Ingredient ingredient = menu.getIngredients().get(i);
                 ingredientRepo.save(ingredient);
             }
             menuRepo.save(menu);
+            return true;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
