@@ -36,14 +36,29 @@ public class MenuService {
     public List<Ingredient> getAllMenuIngredient(Menu menu){
         return ingredientRepo.getIngredientByMenu(menu);
     }
-    public void addIngredientToAMenu(Ingredient ingredient){
-        ingredientRepo.save(ingredient);
+    public boolean addIngredientToAMenu(Ingredient ingredient){
+        try {
+            ingredientRepo.save(ingredient);
+            return true;
+        }catch (RuntimeException e){
+            return false;
+        }
     }
-    public void modifyAMenuIngredient(Ingredient ingredient){
-        ingredientRepo.updateIngredient(ingredient);
+    public boolean modifyAMenuIngredient(Ingredient ingredient){
+        try {
+            ingredientRepo.updateIngredient(ingredient);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
-    public void deleteMenuIngredient(Ingredient ingredient){
-        ingredientRepo.deleteMenuIngredient(ingredient);
+    public boolean deleteMenuIngredient(Ingredient ingredient){
+        try {
+            ingredientRepo.deleteMenuIngredient(ingredient);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
     private boolean checkIfIngredientRequiredIsOk( Restaurant restaurant, List<Ingredient> ingredients){
         for (Ingredient ingredient : ingredients) {

@@ -32,4 +32,9 @@ public class MenuController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    @PostMapping("/add-ingredient-to-menu")
+    public ResponseEntity<Boolean> addIngredientToMenu(@RequestBody Ingredient ingredient){
+        menuService.addIngredientToAMenu(ingredient);
+        return new ResponseEntity<>(true, HttpStatus.CREATED);
+    }
 }
