@@ -18,10 +18,11 @@ public class MenuRepo {
     private Database connection;
     public void save(Menu menu){
         String sql = """
-                insert into menu (name) values (?);
+                insert into menu (name, id) values (?, ?);
                 """;
         try (PreparedStatement statement = connection.getConnection().prepareStatement(sql)){
             statement.setString(1, menu.getName());
+            statement.setInt(2, menu.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

@@ -20,6 +20,7 @@ public class MenuService {
     private final MovementRepo movementRepo;
     private final MenuHistorySaleRepo menuHistorySaleRepo;
     private final RestaurantRepo restaurantRepo;
+    private final MenuPricesRepo menuPricesRepo;
 
     public boolean save(Menu menu){
         try {
@@ -27,6 +28,7 @@ public class MenuService {
                 Ingredient ingredient = menu.getIngredients().get(i);
                 ingredientRepo.save(ingredient);
             }
+            menuPricesRepo.save(menu.getMenuPrices());
             menuRepo.save(menu);
             return true;
         } catch (Exception e) {
@@ -94,7 +96,7 @@ public class MenuService {
             List<MenuNumberSale> menuNumberSales = new ArrayList<>();
             for(Menu menu : menus){
                 int numberOfMenuSale = menuHistorySaleRepo.countMenuSalePerMenu(restaurant, menu, begin, end);
-                double amountOfMenuSale = menu.getMenuPrices().price() * numberOfMenuSale;
+                double amountOfMenuSale = menu.getMenuPrices().getPrice() * numberOfMenuSale;
                 menuNumberSales.add(new MenuNumberSale(menu, numberOfMenuSale, amountOfMenuSale));
             }
             allMenuSaleAtDates.add(new AllMenuSaleAtDate(restaurant, menuNumberSales));

@@ -17,4 +17,10 @@ public final class Menu {
         this.id = id;
         this.name = name;
     }
+
+    public Menu(int id, String name, MenuPrices menuPrices) {
+        this.id = id;
+        this.name = name;
+        this.menuPrices = menuPrices;
+    }
 }

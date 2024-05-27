@@ -20,9 +20,15 @@ public class StockService {
     private StockRepo stockRepo;
     public Stock supply(Stock stock){
         try {
-            Stock currentStock = stockRepo.currentQuantity(stock.restaurant(), stock.ingredientTemplate());
-            double newQuantity = currentStock.quantity() + stock.quantity();
-            Stock toSave = new Stock(stock.id(),stock.restaurant(),stock.ingredientTemplate(), stock.date(), newQuantity);
+            double newQuantity;
+            if (stockRepo.currentQuantity(stock.restaurant(), stock.ingredientTemplate()) != null){
+                Stock currentStock = stockRepo.currentQuantity(stock.restaurant(), stock.ingredientTemplate());
+                newQuantity = currentStock.quantity() + stock.quantity();
+            }else{
+                newQuantity = stock.quantity();
+            }
+
+            Stock toSave = new Stock(stock.id(),stock.restaurant(),stock.ingredientTemplate(), Instant.now(), newQuantity);
             stockRepo.save(toSave);
 
             Movement movement = new Movement(
@@ -34,7 +40,7 @@ public class StockService {
                     stock.restaurant()
             );
             movementRepo.save(movement);
-            return currentStock;
+            return toSave;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
