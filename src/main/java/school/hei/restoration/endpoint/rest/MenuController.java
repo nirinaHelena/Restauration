@@ -6,10 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import school.hei.restoration.Service.MenuService;
 import school.hei.restoration.repository.MenuRepo;
+import school.hei.restoration.repository.dto.AllMenuSaleAtDate;
 import school.hei.restoration.repository.model.Ingredient;
 import school.hei.restoration.repository.model.Menu;
 import school.hei.restoration.repository.model.Restaurant;
 
+import java.time.Instant;
 import java.util.List;
 
 @RestController
@@ -53,5 +55,17 @@ public class MenuController {
                                             @PathVariable int idMenu){
         menuService.saleMenu(menuRepo.getMenuById(idMenu), restaurant);
         return new ResponseEntity<>(true, HttpStatus.CREATED);
+    }
+    @GetMapping("/get-all-menu-sale-at-date")
+    public ResponseEntity<List<AllMenuSaleAtDate>> getAllMenuSaleAtDate(@RequestParam String beginString,
+                                                                        @RequestParam String endString){
+        Instant begin = Instant.parse(beginString);
+        Instant end = Instant.parse(endString);
+        List<AllMenuSaleAtDate> allMenuSaleAtDates = menuService.getAllMenuSaleAtDate(begin, end);
+        if (allMenuSaleAtDates != null){
+            return new ResponseEntity<>(allMenuSaleAtDates, HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 }
