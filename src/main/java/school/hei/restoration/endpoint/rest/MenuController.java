@@ -46,7 +46,7 @@ public class MenuController {
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
     @PutMapping("/update-ingredient-to-menu")
-    public ResponseEntity<Boolean> updateIngredientToMenu(@RequestBody Ingredient ingredient){
+    public ResponseEntity<> updateIngredientToMenu(@RequestBody Ingredient ingredient){
         menuService.modifyAMenuIngredient(ingredient);
         return new ResponseEntity<>(true, HttpStatus.OK);
     }

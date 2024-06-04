@@ -38,13 +38,9 @@ public class MenuService {
     public List<Ingredient> getAllMenuIngredient(Menu menu){
         return ingredientRepo.getIngredientByMenu(menu);
     }
-    public boolean addIngredientToAMenu(Ingredient ingredient){
-        try {
+    public Menu addIngredientToAMenu(Ingredient ingredient){
             ingredientRepo.save(ingredient);
-            return true;
-        }catch (RuntimeException e){
-            return false;
-        }
+            return menuRepo.getMenuById(ingredient.getMenu().getId());
     }
     public boolean modifyAMenuIngredient(Ingredient ingredient){
         try {
