@@ -15,19 +15,16 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/ingredient")
+@RequestMapping("/ingredients")
 public class IngredientController {
     private final IngredientService ingredientService;
     @GetMapping("/most-used")
     public ResponseEntity<List<IngredientMostUsedByMenu>>  ingredientMostUsedByMenu(@RequestParam int limit,
-                                                                                    @RequestParam String begin,
-                                                                                    @RequestParam String end){
-
-        Instant beginInstant = Instant.parse(begin);
-        Instant endInstant = Instant.parse(end);
+                                                                                    @RequestParam Instant begin,
+                                                                                    @RequestParam Instant end){
 
         List<IngredientMostUsedByMenu> ingredientMostUsedByMenus = ingredientService
-                .ingredientMostUsedByMenus(limit, beginInstant, endInstant);
+                .ingredientMostUsedByMenus(limit, begin, end);
         return new ResponseEntity<>(ingredientMostUsedByMenus, HttpStatus.OK);
 
     }

@@ -31,10 +31,10 @@ public class MenuHistorySaleRepo {
             throw new RuntimeException(e);
         }
     }
-    public int countMenuSalePerMenu(Restaurant restaurant, Menu menu, Instant begin, Instant end){
+    public int countMenuSalePerMenuAtDate(Restaurant restaurant, Menu menu, Instant begin, Instant end){
         String sql = """
                 select id_menu, count(*) as count from menu_history_sale
-                where id_menu = ? and date >= ? and date <= ?
+                where id_menu = ? and date >= ? and date <= ? and id_restaurant = ?
                 group by id_menu;
                 """;
         try (PreparedStatement statement = connection.getConnection().prepareStatement(sql)){
@@ -42,6 +42,22 @@ public class MenuHistorySaleRepo {
             statement.setTimestamp(2, Timestamp.from(begin));
             statement.setTimestamp(3, Timestamp.from(end));
             statement.setInt(4, restaurant.getId());
+
+            ResultSet resultSet = statement.executeQuery();
+            return resultSet.getInt("count");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public int countMenuSalePerMenu(Restaurant restaurant, Menu menu){
+        String sql = """
+                select id_menu, count(*) as count from menu_history_sale
+                where id_menu = ? and id_restaurant = ?
+                group by id_menu;
+                """;
+        try (PreparedStatement statement = connection.getConnection().prepareStatement(sql)){
+            statement.setInt(1, menu.getId());
+            statement.setInt(2, restaurant.getId());
 
             ResultSet resultSet = statement.executeQuery();
             return resultSet.getInt("count");

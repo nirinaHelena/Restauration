@@ -38,6 +38,30 @@ public class MovementRepo {
             throw new RuntimeException(e);
         }
     }
+    public List<Movement> findAll(Restaurant restaurant){
+        List<Movement> movements = new ArrayList<>();
+        String sql = """
+                select * from movement where id_restaurant = ?;
+                """;
+        try (PreparedStatement statement = connection.getConnection().prepareStatement(sql)){
+            statement.setInt(1, restaurant.getId());
+
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                movements.add(new Movement(
+                        resultSet.getInt("id"),
+                        resultSet.getTimestamp("date").toInstant(),
+                        ingredientTemplateRepo.getById(resultSet.getInt("id_ingredient_template")),
+                        MovementType.valueOf(resultSet.getString("movement_type")),
+                        resultSet.getDouble("quantity"),
+                        restaurant
+                ));
+            }
+            return movements;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public List<Movement> getAllMovementAtDate(Restaurant restaurant, Instant begin, Instant end) {
         List<Movement> movements = new ArrayList<>();
