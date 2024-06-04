@@ -22,7 +22,7 @@ public class MenuService {
     private final RestaurantRepo restaurantRepo;
     private final MenuPricesRepo menuPricesRepo;
 
-    public boolean save(Menu menu){
+    public Menu save(Menu menu){
         try {
             for (int i = 0; i < menu.getIngredients().size(); i++) {
                 Ingredient ingredient = menu.getIngredients().get(i);
@@ -30,49 +30,39 @@ public class MenuService {
             }
             menuPricesRepo.save(menu.getMenuPrices());
             menuRepo.save(menu);
-            return true;
+            return menu;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
-    public List<Ingredient> getAllMenuIngredient(Menu menu){
+    public List<Ingredient> getAllMenuIngredient(int idMenu){
+        Menu menu = menuRepo.getMenuById(idMenu);
         return ingredientRepo.getIngredientByMenu(menu);
     }
-    public Menu addIngredientToAMenu(Ingredient ingredient){
-            ingredientRepo.save(ingredient);
-            return menuRepo.getMenuById(ingredient.getMenu().getId());
+    public Ingredient addIngredientToAMenu(Ingredient ingredient){
+        ingredientRepo.save(ingredient);
+        return ingredient;
     }
-    public boolean modifyAMenuIngredient(Ingredient ingredient){
-        try {
-            ingredientRepo.updateIngredient(ingredient);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+    public Ingredient modifyAMenuIngredient(Ingredient ingredient){
+        ingredientRepo.save(ingredient);
+        return ingredient;
     }
-    public boolean deleteMenuIngredient(Ingredient ingredient){
-        try {
-            ingredientRepo.deleteMenuIngredient(ingredient);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+    public List<Ingredient> deleteMenuIngredient(int idMenu, int idIngredient){
+        ingredientRepo.deleteMenuIngredient(ingredientRepo.getByIdAndMenu(idMenu, idIngredient));
+        return getAllMenuIngredient(idMenu);
     }
-    private boolean checkIfIngredientRequiredIsOk( Restaurant restaurant, List<Ingredient> ingredients){
+    private void checkIfIngredientRequiredIsOk( Restaurant restaurant, List<Ingredient> ingredients){
         for (Ingredient ingredient : ingredients) {
             double stock = stockRepo.currentQuantity(restaurant, ingredient.getIngredientTemplate()).quantity();
             if (ingredient.getQuantityRequired() > stock) {
-                return false;
+                throw new RuntimeException("missing ingredients");
             }
         }
-        return true;
     }
-    public boolean saleMenu(Menu menu, Restaurant restaurant){
+    public Menu saleMenu(Menu menu, Restaurant restaurant){
         Instant now = Instant.now();
         List<Ingredient> ingredients = ingredientRepo.getIngredientByMenu(menu);
-        if (!checkIfIngredientRequiredIsOk(restaurant, ingredients)){
-            return false;
-        }
+        checkIfIngredientRequiredIsOk(restaurant, ingredients);
         for (Ingredient ingredient : ingredients) {
             movementRepo.save(new Movement(1, now, ingredient.getIngredientTemplate(), MovementType.SALE,
                     ingredient.getQuantityRequired(), restaurant));
@@ -81,7 +71,7 @@ public class MenuService {
             stockRepo.save(new Stock(1, restaurant, ingredient.getIngredientTemplate(), now, quantity));
         }
         menuHistorySaleRepo.save(new MenuHistorySale(1, now, menu, restaurant));
-        return true;
+        return menu;
     }
     public List<AllMenuSaleAtDate> getAllMenuSaleAtDate(Instant begin, Instant end){
         List<AllMenuSaleAtDate> allMenuSaleAtDates = new ArrayList<>();
@@ -91,12 +81,38 @@ public class MenuService {
         for (Restaurant restaurant : restaurants) {
             List<MenuNumberSale> menuNumberSales = new ArrayList<>();
             for(Menu menu : menus){
-                int numberOfMenuSale = menuHistorySaleRepo.countMenuSalePerMenu(restaurant, menu, begin, end);
+                int numberOfMenuSale = menuHistorySaleRepo.countMenuSalePerMenuAtDate(restaurant, menu, begin, end);
                 double amountOfMenuSale = menu.getMenuPrices().getPrice() * numberOfMenuSale;
                 menuNumberSales.add(new MenuNumberSale(menu, numberOfMenuSale, amountOfMenuSale));
             }
             allMenuSaleAtDates.add(new AllMenuSaleAtDate(restaurant, menuNumberSales));
         }
         return allMenuSaleAtDates;
+    }
+    public List<AllMenuSaleAtDate> getAllMenuSale(){
+        List<AllMenuSaleAtDate> allMenuSaleAtDates = new ArrayList<>();
+        List<Menu> menus = menuRepo.findAll();
+        List<Restaurant> restaurants = restaurantRepo.findAll();
+
+        for (Restaurant restaurant : restaurants) {
+            List<MenuNumberSale> menuNumberSales = new ArrayList<>();
+            for(Menu menu : menus){
+                int numberOfMenuSale = menuHistorySaleRepo.countMenuSalePerMenu(restaurant, menu);
+                double amountOfMenuSale = menu.getMenuPrices().getPrice() * numberOfMenuSale;
+                menuNumberSales.add(new MenuNumberSale(menu, numberOfMenuSale, amountOfMenuSale));
+            }
+            allMenuSaleAtDates.add(new AllMenuSaleAtDate(restaurant, menuNumberSales));
+        }
+        return allMenuSaleAtDates;
+    }
+    public List<AllMenuSaleAtDate> allMenuSale(Instant begin, Instant end){
+        List<AllMenuSaleAtDate> allMenuSaleAtDates;
+        if (begin == null || end == null){
+             allMenuSaleAtDates = getAllMenuSale();
+            return allMenuSaleAtDates;
+        }else {
+            allMenuSaleAtDates = getAllMenuSaleAtDate(begin, end);
+            return allMenuSaleAtDates;
+        }
     }
 }

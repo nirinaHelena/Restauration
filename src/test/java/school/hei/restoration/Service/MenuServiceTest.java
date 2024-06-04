@@ -11,7 +11,7 @@ import school.hei.restoration.repository.dto.MenuNumberSale;
 import school.hei.restoration.repository.model.*;
 
 import java.time.Instant;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -64,10 +64,10 @@ class MenuServiceTest {
         menu.setMenuPrices(menuPrices);
 
         // When
-        boolean result = menuService.save(menu);
+        Menu result = menuService.save(menu);
 
         // Then
-        assertTrue(result);
+        assertEquals(menu, result);
         verify(ingredientRepo, times(1)).save(ingredient);
         verify(menuPricesRepo, times(1)).save(menuPrices);
         verify(menuRepo, times(1)).save(menu);
@@ -84,7 +84,7 @@ class MenuServiceTest {
         when(ingredientRepo.getIngredientByMenu(menu)).thenReturn(ingredients);
 
         // When
-        List<Ingredient> result = menuService.getAllMenuIngredient(menu);
+        List<Ingredient> result = menuService.getAllMenuIngredient(menu.getId());
 
         // Then
         assertEquals(ingredients, result);
@@ -101,10 +101,10 @@ class MenuServiceTest {
 
 
         // When
-        boolean result = menuService.addIngredientToAMenu(ingredient);
+        Ingredient result = menuService.addIngredientToAMenu(ingredient);
 
         // Then
-        assertTrue(result);
+        assertEquals(ingredient, result);
         verify(ingredientRepo, times(1)).save(ingredient);
     }
     @Test
@@ -118,11 +118,11 @@ class MenuServiceTest {
 
 
         // When
-        boolean result = menuService.modifyAMenuIngredient(ingredient);
+        Ingredient result = menuService.modifyAMenuIngredient(ingredient);
 
         // Then
-        assertTrue(result);
-        verify(ingredientRepo, times(1)).updateIngredient(ingredient);
+        assertEquals(ingredient, result);
+        verify(ingredientRepo, times(1)).save(ingredient);
     }
     @Test
     public void testDeleteMenuIngredient() {
@@ -135,10 +135,11 @@ class MenuServiceTest {
 
 
         // When
-        boolean result = menuService.deleteMenuIngredient(ingredient);
+        List<Ingredient> result = menuService.deleteMenuIngredient(ingredient.getMenu().getId(), ingredient.getId());
 
         // Then
-        assertTrue(result);
+        List<Ingredient> noIngredient = new ArrayList<>();
+        assertEquals(noIngredient, result);
         verify(ingredientRepo, times(1)).deleteMenuIngredient(ingredient);
     }
     @Test
@@ -162,10 +163,10 @@ class MenuServiceTest {
         when(stockRepo.currentQuantity(restaurant, bread.getIngredientTemplate())).thenReturn(currentStock);
 
         // When
-        boolean result = menuService.saleMenu(menu, restaurant);
+        Menu result = menuService.saleMenu(menu, restaurant);
 
         // Then
-        assertTrue(result);
+        assertEquals(menu, result);
         verify(movementRepo, times(1)).save(any(Movement.class));
         verify(stockRepo, times(1)).save(any(Stock.class));
         verify(menuHistorySaleRepo, times(1)).save(any(MenuHistorySale.class));
@@ -183,24 +184,24 @@ class MenuServiceTest {
         List<Restaurant> restaurants = Collections.singletonList(restaurant);
         when(menuRepo.findAll()).thenReturn(menus);
         when(restaurantRepo.findAll()).thenReturn(restaurants);
-        when(menuHistorySaleRepo.countMenuSalePerMenu(any(Restaurant.class), any(Menu.class), any(Instant.class), any(Instant.class))).thenReturn(10);
+        when(menuHistorySaleRepo.countMenuSalePerMenu(any(Restaurant.class), any(Menu.class))).thenReturn(10);
 
         // When
         List<AllMenuSaleAtDate> result = menuService.getAllMenuSaleAtDate(begin, end);
 
         // Then
         assertEquals(1, result.size());
-        AllMenuSaleAtDate allMenuSaleAtDate = result.get(0);
+        AllMenuSaleAtDate allMenuSaleAtDate = result.getFirst();
         assertEquals(restaurant, allMenuSaleAtDate.getRestaurant());
         List<MenuNumberSale> menuNumberSales = allMenuSaleAtDate.getMenuNumberSales();
         assertEquals(1, menuNumberSales.size());
-        MenuNumberSale menuNumberSale = menuNumberSales.get(0);
+        MenuNumberSale menuNumberSale = menuNumberSales.getFirst();
         assertEquals(menu, menuNumberSale.menu());
         assertEquals(10, menuNumberSale.numberOfMenuSale());
         assertEquals(1000.0, menuNumberSale.amountOfMenuSale(), 0.01);
         verify(menuRepo, times(1)).findAll();
         verify(restaurantRepo, times(1)).findAll();
-        verify(menuHistorySaleRepo, times(1)).countMenuSalePerMenu(any(Restaurant.class), any(Menu.class), any(Instant.class), any(Instant.class));
+        verify(menuHistorySaleRepo, times(1)).countMenuSalePerMenu(any(Restaurant.class), any(Menu.class));
     }
 
 }
