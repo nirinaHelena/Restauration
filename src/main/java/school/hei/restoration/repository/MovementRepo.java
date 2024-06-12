@@ -30,7 +30,7 @@ public class MovementRepo {
         try (PreparedStatement statement = connection.getConnection().prepareStatement(sql)){
             statement.setTimestamp(1, Timestamp.from(movement.getDate()));
             statement.setInt(2, movement.getIngredientTemplate().getId());
-            statement.setString(3, String.valueOf(movement.getMovementType()));
+            statement.setString(3, (movement.getMovementType()).toString());
             statement.setDouble(4, movement.getQuantity());
 
             statement.executeUpdate();
