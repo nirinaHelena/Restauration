@@ -79,8 +79,9 @@ class StockServiceTest {
         verify(stockRepo).save(any(Stock.class));
         verify(movementRepo).save(any(Movement.class));
     }
+
     @Test
-    public void testGetStockDetailsMovementAtDate() {
+    public void testGetStockDetails() {
         // Given
         Restaurant restaurant = new Restaurant(1, "Ivandry");
 
@@ -101,7 +102,7 @@ class StockServiceTest {
         when(movementRepo.getAllMovementAtDate(restaurant, begin, end)).thenReturn(movements);
 
         // When
-        List<Movement> result = stockService.getStockDetailsMovementAtDate(restaurant, begin, end);
+        List<Movement> result = stockService.getStockDetails(restaurant, begin, end);
 
         // Then
         assertEquals(2, result.size());

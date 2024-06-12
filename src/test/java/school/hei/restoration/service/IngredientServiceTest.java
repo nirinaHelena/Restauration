@@ -43,7 +43,6 @@ class IngredientServiceTest {
         when(ingredientTemplateRepo.getById(1)).thenReturn(breadTemplate());
         when(ingredientTemplateRepo.getById(2)).thenReturn(sausageTemplate());when(ingredientRepo.menuWhereIngredientIsMostUsed(eq(breadTemplate()))).thenReturn(burger());
         when(ingredientRepo.menuWhereIngredientIsMostUsed(eq(sausageTemplate()))).thenReturn(hotDog());
-
     }
 
     public IngredientMostUsed bread(){

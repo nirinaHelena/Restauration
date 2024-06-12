@@ -41,10 +41,12 @@ public class MenuService {
             throw new RuntimeException(e);
         }
     }
+
     public List<Ingredient> getAllMenuIngredient(int idMenu){
         Menu menu = menuRepo.getMenuById(idMenu);
         return ingredientRepo.getIngredientByMenu(menu);
     }
+
     public Ingredient addIngredientToAMenu(Ingredient ingredient){
         ingredientRepo.save(ingredient);
         return ingredient;

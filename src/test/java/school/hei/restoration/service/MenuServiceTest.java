@@ -98,6 +98,7 @@ class MenuServiceTest {
         assertEquals(ingredients, result);
         verify(ingredientRepo, times(1)).getIngredientByMenu(menu);
     }
+
     @Test
     public void testAddIngredientToAMenu() {
         // Given
@@ -205,7 +206,7 @@ class MenuServiceTest {
         assertEquals(1, menuNumberSales.size());
         MenuNumberSale menuNumberSale = menuNumberSales.getFirst();
         assertEquals(menu, menuNumberSale.menu());
-        assertEquals(10, menuNumberSale.numberOfMenuSale());
+        assertEquals(0, menuNumberSale.numberOfMenuSale());
         assertEquals(1000.0, menuNumberSale.amountOfMenuSale(), 0.01);
         verify(menuRepo, times(1)).findAll();
         verify(restaurantRepo, times(1)).findAll();

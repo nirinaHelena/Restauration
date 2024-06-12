@@ -3,12 +3,16 @@ package school.hei.restoration.endpoint.rest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import school.hei.restoration.service.StockService;
-import school.hei.restoration.repository.MovementRepo;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import school.hei.restoration.model.Movement;
 import school.hei.restoration.model.Restaurant;
 import school.hei.restoration.model.Stock;
+import school.hei.restoration.service.StockService;
 
 import java.time.Instant;
 import java.util.List;
@@ -19,23 +23,18 @@ import java.util.List;
 @RequestMapping("/stock")
 public class StockController {
     private final StockService stockService;
-    private final MovementRepo movementRepo;
 
     @PostMapping("/supply")
-    public ResponseEntity<Stock> supply(@RequestBody Stock stock){
+    public ResponseEntity<Stock> supply(@RequestBody Stock stock) {
         Stock savedStock = stockService.supply(stock);
         return new ResponseEntity<>(savedStock, HttpStatus.CREATED);
     }
+
     @GetMapping()
     public ResponseEntity<List<Movement>> getStockDetailsMovement(@RequestBody(required = true) Restaurant restaurant,
                                                                   @RequestParam(required = false) Instant begin,
-                                                                  @RequestParam(required = false) Instant end){
-        if (begin == null  || end == null){
-            List<Movement> movements = movementRepo.findAll(restaurant);
-            return new ResponseEntity<>(movements, HttpStatus.OK);
-        }else {
-            List<Movement> movements = stockService.getStockDetailsMovementAtDate(restaurant, begin, end);
-            return new ResponseEntity<>(movements, HttpStatus.OK);
-        }
+                                                                  @RequestParam(required = false) Instant end) {
+        List<Movement> movements = stockService.getStockDetails(restaurant, begin, end);
+        return new ResponseEntity<>(movements, HttpStatus.OK);
     }
 }
