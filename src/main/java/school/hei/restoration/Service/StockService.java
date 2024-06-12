@@ -12,6 +12,8 @@ import school.hei.restoration.repository.model.Stock;
 import java.time.Instant;
 import java.util.List;
 
+import static school.hei.restoration.repository.model.MovementType.SUPPLY;
+
 
 @Service
 @AllArgsConstructor
@@ -35,7 +37,7 @@ public class StockService {
                     1,
                     stock.date(),
                     stock.ingredientTemplate(),
-                    MovementType.SUPPLY,
+                    SUPPLY,
                     stock.quantity(),
                     stock.restaurant()
             );

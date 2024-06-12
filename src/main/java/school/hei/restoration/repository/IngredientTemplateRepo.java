@@ -24,7 +24,10 @@ public class IngredientTemplateRepo {
             statement.setInt(1, id);
 
             ResultSet resultSet = statement.executeQuery();
-            Unity unity = unityRepo.getUnityById(resultSet.getInt("id_unity"));
+            Unity unity = null;
+            if (resultSet.next()){
+                unity = unityRepo.getUnityById(resultSet.getInt("id_unity"));
+            }
             return new IngredientTemplate(
                     resultSet.getInt("id"),
                     resultSet.getString("name"),

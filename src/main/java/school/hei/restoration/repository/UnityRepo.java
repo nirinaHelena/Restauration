@@ -20,12 +20,15 @@ public class UnityRepo {
         try (PreparedStatement statement = connection.getConnection().prepareStatement(sql)){
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
-            return new Unity(
-                    resultSet.getInt("id"),
-                    resultSet.getString("name")
-            );
+            while(resultSet.next()){
+                return new Unity(
+                        resultSet.getInt("id"),
+                        resultSet.getString("name")
+                );
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return null;
     }
 }

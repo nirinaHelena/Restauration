@@ -41,15 +41,18 @@ public class StockRepo {
             statement.setInt(2, restaurant.getId());
 
             ResultSet resultSet = statement.executeQuery();
-            return new Stock(
-                    resultSet.getInt("id"),
-                    restaurant,
-                    ingredientTemplate,
-                    resultSet.getTimestamp("date").toInstant(),
-                    resultSet.getDouble("quantity")
-            );
+            if (resultSet.next()){
+                return new Stock(
+                        resultSet.getInt("id"),
+                        restaurant,
+                        ingredientTemplate,
+                        resultSet.getTimestamp("date").toInstant(),
+                        resultSet.getDouble("quantity")
+                );
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return null;
     }
 }
