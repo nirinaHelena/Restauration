@@ -26,6 +26,7 @@ public class MenuController {
         Menu saved = menuService.save(menu);
         return new ResponseEntity<>(saved,HttpStatus.CREATED);
     }
+
     @GetMapping("/{idMenu}/ingredients")
     public ResponseEntity<List<Ingredient>> getIngredientByMenu(@PathVariable("idMenu") int idMenu){
         List<Ingredient> ingredients = menuService.getAllMenuIngredient(idMenu);
@@ -35,11 +36,13 @@ public class MenuController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
     @PutMapping("/ingredients")
     public ResponseEntity<Ingredient> addIngredientToMenu(@RequestBody Ingredient ingredient){
         Ingredient added = menuService.addIngredientToAMenu(ingredient);
         return new ResponseEntity<>(added, HttpStatus.CREATED);
     }
+
     @DeleteMapping("/{idMenu}/ingredients/{idIngredient}")
     public ResponseEntity<List<Ingredient>> deleteIngredientToMenu(@PathVariable("idMenu") int idMenu,
                                                        @PathVariable("idIngredient") int idIngredient){
@@ -47,12 +50,14 @@ public class MenuController {
         List<Ingredient> ingredients = menuService.getAllMenuIngredient(idMenu);
         return new ResponseEntity<>(ingredients, HttpStatus.OK);
     }
+
     @PostMapping("/sale/{idMenu}")
     public ResponseEntity<Menu> saleMenu(@RequestBody Restaurant restaurant,
                                             @PathVariable int idMenu){
         Menu menu = menuService.saleMenu(menuRepo.getMenuById(idMenu), restaurant);
         return new ResponseEntity<>(menu, HttpStatus.CREATED);
     }
+
     @GetMapping()
     public ResponseEntity<List<AllMenuSaleAtDate>> getAllMenuSaleAtDate(@RequestParam(required = false) Instant begin,
                                                                         @RequestParam(required = false) Instant end){

@@ -18,7 +18,8 @@ import java.util.List;
 @RequestMapping("/ingredients")
 public class IngredientController {
     private final IngredientService ingredientService;
-    @GetMapping("/most-used")
+
+    @GetMapping("/mostly_used")
     public ResponseEntity<List<IngredientMostUsedByMenu>>  ingredientMostUsedByMenu(@RequestParam int limit,
                                                                                     @RequestParam Instant begin,
                                                                                     @RequestParam Instant end){
