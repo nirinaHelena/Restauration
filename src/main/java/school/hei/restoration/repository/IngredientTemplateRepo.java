@@ -34,4 +34,21 @@ public class IngredientTemplateRepo {
             throw new RuntimeException(e);
         }
     }
+
+    public IngredientTemplate save(IngredientTemplate ingredientTemplate){
+        String sql = """
+                insert into ingreditent_template (id, name, price, id_unity) values (?, ? , ?, ?);
+                """;
+        try (PreparedStatement statement = connection.getConnection().prepareStatement(sql)){
+            statement.setInt(1, ingredientTemplate.getId());
+            statement.setString(2, ingredientTemplate.getName());
+            statement.setDouble(3, ingredientTemplate.getPrice());
+            statement.setInt(4, ingredientTemplate.getUnity().id());
+
+            statement.executeUpdate();
+            return getById(ingredientTemplate.getId());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

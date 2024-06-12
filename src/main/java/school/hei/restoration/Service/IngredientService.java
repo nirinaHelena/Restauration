@@ -18,7 +18,7 @@ import java.util.List;
 public class IngredientService {
     private final IngredientRepo ingredientRepo;
     private final IngredientTemplateRepo ingredientTemplateRepo;
-    private MovementRepo movementRepo;
+    private final MovementRepo movementRepo;
 
     public List<IngredientMostUsedByMenu> ingredientMostUsedByMenus(int limit, Instant begin, Instant end){
         List<IngredientMostUsed> ingredientMostUses = movementRepo.getIngredientMostUsed(limit, begin, end);
