@@ -1,8 +1,8 @@
-package school.hei.restoration.repository.dto;
+package school.hei.restoration.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import school.hei.restoration.repository.model.Restaurant;
+import school.hei.restoration.model.Restaurant;
 
 import java.util.List;
 

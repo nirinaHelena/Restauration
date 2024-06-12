@@ -1,13 +1,15 @@
-package school.hei.restoration.Service;
+package school.hei.restoration.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import school.hei.restoration.repository.MovementRepo;
 import school.hei.restoration.repository.StockRepo;
-import school.hei.restoration.repository.model.Movement;
-import school.hei.restoration.repository.model.MovementType;
-import school.hei.restoration.repository.model.Restaurant;
-import school.hei.restoration.repository.model.Stock;
+import school.hei.restoration.model.Movement;
+import school.hei.restoration.model.MovementType;
+import school.hei.restoration.model.Restaurant;
+import school.hei.restoration.model.Stock;
 
 import java.time.Instant;
 import java.util.List;
@@ -45,7 +47,10 @@ public class StockService {
             throw new RuntimeException(e);
         }
     }
-    public List<Movement> getStockDetailsMovementAtDate(Restaurant restaurant, Instant begin, Instant end){
+    public List<Movement> getStockDetails(Restaurant restaurant, Instant begin, Instant end){
+        if (begin == null  || end == null) {
+            return movementRepo.findAll(restaurant);
+        }
         return movementRepo.getAllMovementAtDate(restaurant, begin, end);
     }
 }

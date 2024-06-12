@@ -2,8 +2,8 @@ package school.hei.restoration.repository;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
-import school.hei.restoration.config.Database;
-import school.hei.restoration.repository.model.Unity;
+import school.hei.restoration.repository.conf.Database;
+import school.hei.restoration.model.Unity;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

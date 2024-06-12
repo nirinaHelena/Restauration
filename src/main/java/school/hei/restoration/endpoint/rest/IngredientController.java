@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import school.hei.restoration.Service.IngredientService;
-import school.hei.restoration.repository.dto.IngredientMostUsedByMenu;
+import school.hei.restoration.service.IngredientService;
+import school.hei.restoration.model.dto.IngredientMostUsedByMenu;
 
 import java.time.Instant;
 import java.util.List;
@@ -18,7 +18,8 @@ import java.util.List;
 @RequestMapping("/ingredients")
 public class IngredientController {
     private final IngredientService ingredientService;
-    @GetMapping("/most-used")
+
+    @GetMapping("/mostly_used")
     public ResponseEntity<List<IngredientMostUsedByMenu>>  ingredientMostUsedByMenu(@RequestParam int limit,
                                                                                     @RequestParam Instant begin,
                                                                                     @RequestParam Instant end){

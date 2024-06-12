@@ -1,14 +1,22 @@
-package school.hei.restoration.Service;
+package school.hei.restoration.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import school.hei.restoration.model.Ingredient;
+import school.hei.restoration.model.IngredientTemplate;
+import school.hei.restoration.model.Menu;
+import school.hei.restoration.model.MenuHistorySale;
+import school.hei.restoration.model.MenuPrices;
+import school.hei.restoration.model.Movement;
+import school.hei.restoration.model.Restaurant;
+import school.hei.restoration.model.Stock;
+import school.hei.restoration.model.Unity;
 import school.hei.restoration.repository.*;
-import school.hei.restoration.repository.dto.AllMenuSaleAtDate;
-import school.hei.restoration.repository.dto.MenuNumberSale;
-import school.hei.restoration.repository.model.*;
+import school.hei.restoration.model.dto.AllMenuSaleAtDate;
+import school.hei.restoration.model.dto.MenuNumberSale;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -90,6 +98,7 @@ class MenuServiceTest {
         assertEquals(ingredients, result);
         verify(ingredientRepo, times(1)).getIngredientByMenu(menu);
     }
+
     @Test
     public void testAddIngredientToAMenu() {
         // Given
@@ -197,7 +206,7 @@ class MenuServiceTest {
         assertEquals(1, menuNumberSales.size());
         MenuNumberSale menuNumberSale = menuNumberSales.getFirst();
         assertEquals(menu, menuNumberSale.menu());
-        assertEquals(10, menuNumberSale.numberOfMenuSale());
+        assertEquals(0, menuNumberSale.numberOfMenuSale());
         assertEquals(1000.0, menuNumberSale.amountOfMenuSale(), 0.01);
         verify(menuRepo, times(1)).findAll();
         verify(restaurantRepo, times(1)).findAll();

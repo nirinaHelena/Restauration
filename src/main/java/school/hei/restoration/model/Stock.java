@@ -1,4 +1,4 @@
-package school.hei.restoration.repository.model;
+package school.hei.restoration.model;
 
 import java.time.Instant;
 

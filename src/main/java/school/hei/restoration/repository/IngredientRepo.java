@@ -2,10 +2,10 @@ package school.hei.restoration.repository;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
-import school.hei.restoration.config.Database;
-import school.hei.restoration.repository.model.Ingredient;
-import school.hei.restoration.repository.model.IngredientTemplate;
-import school.hei.restoration.repository.model.Menu;
+import school.hei.restoration.repository.conf.Database;
+import school.hei.restoration.model.Ingredient;
+import school.hei.restoration.model.IngredientTemplate;
+import school.hei.restoration.model.Menu;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

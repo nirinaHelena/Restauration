@@ -2,11 +2,11 @@ package school.hei.restoration.repository;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
-import school.hei.restoration.config.Database;
-import school.hei.restoration.repository.dto.IngredientMostUsed;
-import school.hei.restoration.repository.model.Movement;
-import school.hei.restoration.repository.model.MovementType;
-import school.hei.restoration.repository.model.Restaurant;
+import school.hei.restoration.repository.conf.Database;
+import school.hei.restoration.model.dto.IngredientMostUsed;
+import school.hei.restoration.model.Movement;
+import school.hei.restoration.model.MovementType;
+import school.hei.restoration.model.Restaurant;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
