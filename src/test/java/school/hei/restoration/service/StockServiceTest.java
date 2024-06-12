@@ -1,13 +1,18 @@
-package school.hei.restoration.Service;
+package school.hei.restoration.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import school.hei.restoration.model.IngredientTemplate;
+import school.hei.restoration.model.Movement;
+import school.hei.restoration.model.MovementType;
+import school.hei.restoration.model.Restaurant;
+import school.hei.restoration.model.Stock;
+import school.hei.restoration.model.Unity;
 import school.hei.restoration.repository.MovementRepo;
 import school.hei.restoration.repository.StockRepo;
-import school.hei.restoration.repository.model.*;
 
 
 import java.time.Instant;

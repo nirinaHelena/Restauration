@@ -1,6 +1,6 @@
-package school.hei.restoration.repository.dto;
+package school.hei.restoration.model.dto;
 
-import school.hei.restoration.repository.model.Menu;
+import school.hei.restoration.model.Menu;
 
 public record MenuNumberSale (
         Menu menu,

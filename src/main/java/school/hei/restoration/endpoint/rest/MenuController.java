@@ -4,12 +4,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import school.hei.restoration.Service.MenuService;
+import school.hei.restoration.service.MenuService;
 import school.hei.restoration.repository.MenuRepo;
-import school.hei.restoration.repository.dto.AllMenuSaleAtDate;
-import school.hei.restoration.repository.model.Ingredient;
-import school.hei.restoration.repository.model.Menu;
-import school.hei.restoration.repository.model.Restaurant;
+import school.hei.restoration.model.dto.AllMenuSaleAtDate;
+import school.hei.restoration.model.Ingredient;
+import school.hei.restoration.model.Menu;
+import school.hei.restoration.model.Restaurant;
 
 import java.time.Instant;
 import java.util.List;

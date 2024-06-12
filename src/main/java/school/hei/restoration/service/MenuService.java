@@ -1,11 +1,17 @@
-package school.hei.restoration.Service;
+package school.hei.restoration.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import school.hei.restoration.model.Ingredient;
+import school.hei.restoration.model.Menu;
+import school.hei.restoration.model.MenuHistorySale;
+import school.hei.restoration.model.Movement;
+import school.hei.restoration.model.MovementType;
+import school.hei.restoration.model.Restaurant;
+import school.hei.restoration.model.Stock;
 import school.hei.restoration.repository.*;
-import school.hei.restoration.repository.dto.AllMenuSaleAtDate;
-import school.hei.restoration.repository.dto.MenuNumberSale;
-import school.hei.restoration.repository.model.*;
+import school.hei.restoration.model.dto.AllMenuSaleAtDate;
+import school.hei.restoration.model.dto.MenuNumberSale;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -51,7 +57,7 @@ public class MenuService {
         ingredientRepo.deleteMenuIngredient(ingredientRepo.getByIdAndMenu(idMenu, idIngredient));
         return getAllMenuIngredient(idMenu);
     }
-    private void checkIfIngredientRequiredIsOk( Restaurant restaurant, List<Ingredient> ingredients){
+    private void checkIfIngredientRequiredIsOk(Restaurant restaurant, List<Ingredient> ingredients){
         for (Ingredient ingredient : ingredients) {
             double stock = stockRepo.currentQuantity(restaurant, ingredient.getIngredientTemplate()).quantity();
             if (ingredient.getQuantityRequired() > stock) {

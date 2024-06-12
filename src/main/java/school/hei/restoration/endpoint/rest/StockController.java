@@ -4,11 +4,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import school.hei.restoration.Service.StockService;
+import school.hei.restoration.service.StockService;
 import school.hei.restoration.repository.MovementRepo;
-import school.hei.restoration.repository.model.Movement;
-import school.hei.restoration.repository.model.Restaurant;
-import school.hei.restoration.repository.model.Stock;
+import school.hei.restoration.model.Movement;
+import school.hei.restoration.model.Restaurant;
+import school.hei.restoration.model.Stock;
 
 import java.time.Instant;
 import java.util.List;
