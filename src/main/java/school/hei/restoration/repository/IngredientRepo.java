@@ -68,7 +68,7 @@ public class IngredientRepo {
             throw new RuntimeException(e);
         }
     }
-    public List<Ingredient> getIngredientByMenu(Menu menu){
+    public List<Ingredient> getMenuIngredient(Menu menu){
         List<Ingredient> ingredients = new ArrayList<>();
         String sql = """
                 select  * from ingredient

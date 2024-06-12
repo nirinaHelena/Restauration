@@ -37,7 +37,7 @@ public class MenuService {
     }
     public List<Ingredient> getAllMenuIngredient(int idMenu){
         Menu menu = menuRepo.getMenuById(idMenu);
-        return ingredientRepo.getIngredientByMenu(menu);
+        return ingredientRepo.getMenuIngredient(menu);
     }
     public Ingredient addIngredientToAMenu(Ingredient ingredient){
         ingredientRepo.save(ingredient);
@@ -61,7 +61,7 @@ public class MenuService {
     }
     public Menu saleMenu(Menu menu, Restaurant restaurant){
         Instant now = Instant.now();
-        List<Ingredient> ingredients = ingredientRepo.getIngredientByMenu(menu);
+        List<Ingredient> ingredients = ingredientRepo.getMenuIngredient(menu);
         checkIfIngredientRequiredIsOk(restaurant, ingredients);
         for (Ingredient ingredient : ingredients) {
             movementRepo.save(new Movement(1, now, ingredient.getIngredientTemplate(), MovementType.SALE,
