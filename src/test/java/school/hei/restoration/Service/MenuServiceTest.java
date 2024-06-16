@@ -55,7 +55,7 @@ class MenuServiceTest {
 
         Unity piece = new Unity(1, "piece");
         IngredientTemplate breadTemplate = new IngredientTemplate(1, "bread", 500, piece);
-        Ingredient ingredient = new Ingredient(1, menu, breadTemplate, 1);
+        Ingredient ingredient = new Ingredient( menu, breadTemplate, 1, 1);
 
         menu.setIngredients(Collections.singletonList(ingredient));
         Instant now = Instant.now();
@@ -78,9 +78,9 @@ class MenuServiceTest {
 
         Unity piece = new Unity(1, "piece");
         IngredientTemplate breadTemplate = new IngredientTemplate(1, "bread", 500, piece);
-        Ingredient ingredient = new Ingredient(1, menu, breadTemplate, 1);
+        Ingredient ingredient = new Ingredient( menu, breadTemplate, 1, 1);
         when(menuRepo.getMenuById(menu.getId())).thenReturn(menu);
-        when(ingredientRepo.getMenuIngredient(menu)).thenReturn(List.of(ingredient));
+        when(menuRepo.getMenuIngredient(menu)).thenReturn(List.of(ingredient));
 
         // When
         List<Ingredient> actual = menuService.getAllMenuIngredient(menu.getId());
@@ -95,7 +95,7 @@ class MenuServiceTest {
 
         Unity piece = new Unity(1, "piece");
         IngredientTemplate breadTemplate = new IngredientTemplate(1, "bread", 500, piece);
-        Ingredient ingredient = new Ingredient(1, menu, breadTemplate, 1);
+        Ingredient ingredient = new Ingredient(menu, breadTemplate, 1, 1);
 
 
         // When
@@ -112,7 +112,7 @@ class MenuServiceTest {
 
         Unity piece = new Unity(1, "piece");
         IngredientTemplate breadTemplate = new IngredientTemplate(1, "bread", 500, piece);
-        Ingredient ingredient = new Ingredient(1, menu, breadTemplate, 1);
+        Ingredient ingredient = new Ingredient(menu, breadTemplate, 1, 1);
 
 
         // When
@@ -129,12 +129,12 @@ class MenuServiceTest {
 
         Unity piece = new Unity(1, "piece");
         IngredientTemplate breadTemplate = new IngredientTemplate(1, "bread", 500, piece);
-        Ingredient ingredient = new Ingredient(1, menu, breadTemplate, 1);
+        Ingredient ingredient = new Ingredient(menu, breadTemplate, 1, 1);
 
 
         // When
         when(menuRepo.getMenuById(menu.getId())).thenReturn(menu);
-        when(ingredientRepo.getMenuIngredient(menu)).thenReturn(List.of(ingredient));
+        when(menuRepo.getMenuIngredient(menu)).thenReturn(List.of(ingredient));
         List<Ingredient> actual = menuService.deleteMenuIngredient(ingredient.getMenu().getId(), ingredient.getId());
 
         // Then
@@ -147,17 +147,17 @@ class MenuServiceTest {
 
         Unity piece = new Unity(1, "piece");
         IngredientTemplate breadTemplate = new IngredientTemplate(1, "bread", 500, piece);
-        Ingredient bread = new Ingredient(1, menu, breadTemplate, 1);
+        Ingredient bread = new Ingredient( menu, breadTemplate, 1, 1);
 
 
-        Ingredient breadSet = new Ingredient(1, menu, breadTemplate, 2);
+        Ingredient breadSet = new Ingredient(menu, breadTemplate, 1, 2);
         List<Ingredient> ingredients = Collections.singletonList(breadSet);
         menu.setIngredients(ingredients);
 
         Restaurant restaurant = new Restaurant(1, "Ivandry");
         Stock currentStock = new Stock(1, restaurant, bread.getIngredientTemplate(), Instant.now(), 20.0);
 
-        when(ingredientRepo.getMenuIngredient(menu)).thenReturn(ingredients);
+        when(menuRepo.getMenuIngredient(menu)).thenReturn(ingredients);
         when(stockRepo.currentQuantity(restaurant, bread.getIngredientTemplate())).thenReturn(currentStock);
 
         // When

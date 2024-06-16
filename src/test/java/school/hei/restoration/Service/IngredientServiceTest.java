@@ -67,14 +67,14 @@ class IngredientServiceTest {
         assertEquals(2, ingredientMostUsedByMenus.size());
 
         IngredientMostUsedByMenu result1 = ingredientMostUsedByMenus.get(0);
-        assertEquals(1, result1.idIngredientTemplate());
-        assertEquals("bread", result1.nameIngredient());
-        assertEquals(burger, result1.menuWhichMostUsedIngredient());
+        assertEquals(1, result1.getIngredientTemplate().getId());
+        assertEquals("bread", result1.getIngredientTemplate().getName());
+        assertEquals(burger, result1.getMenu());
 
         IngredientMostUsedByMenu result2 = ingredientMostUsedByMenus.get(1);
-        assertEquals(2, result2.idIngredientTemplate());
-        assertEquals("sausage", result2.nameIngredient());
-        assertEquals(hotDog, result2.menuWhichMostUsedIngredient());
+        assertEquals(2, result2.getIngredientTemplate().getId());
+        assertEquals("sausage", result2.getIngredientTemplate().getName());
+        assertEquals(hotDog, result2.getMenu());
 
         verify(movementRepo).getIngredientMostUsed(eq(limit), eq(begin), eq(end));
         verify(ingredientTemplateRepo).getById(1);
