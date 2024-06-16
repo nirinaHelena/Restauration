@@ -10,4 +10,8 @@ import lombok.NoArgsConstructor;
 public class IngredientMenu {
     protected Menu menu;
     protected IngredientTemplate ingredientTemplate;
+
+    public IngredientMenu(IngredientTemplate ingredientTemplate) {
+        this.ingredientTemplate = ingredientTemplate;
+    }
 }

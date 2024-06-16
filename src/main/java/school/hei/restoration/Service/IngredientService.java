@@ -26,12 +26,9 @@ public class IngredientService {
         for (IngredientMostUsed ingredientMostUsed : ingredientMostUses) {
             IngredientTemplate ingredientTemplate = ingredientTemplateRepo.getById(ingredientMostUsed.id_ingredient_template());
             ingredientMostUsedByMenus.add(new IngredientMostUsedByMenu(
-                    ingredientMostUsed.id_ingredient_template(),
-                    ingredientTemplate.getName(),
                     ingredientRepo.menuWhereIngredientIsMostUsed(ingredientTemplate),
-                    ingredientMostUsed.quantity(),
-                    ingredientTemplate.getUnity()
-            ));
+                    ingredientTemplate,
+                    ingredientMostUsed.quantity()));
         }
         return ingredientMostUsedByMenus;
     }

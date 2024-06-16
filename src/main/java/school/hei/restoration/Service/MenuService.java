@@ -37,7 +37,7 @@ public class MenuService {
     }
     public List<Ingredient> getAllMenuIngredient(int idMenu){
         Menu menu = menuRepo.getMenuById(idMenu);
-        return ingredientRepo.getMenuIngredient(menu);
+        return menuRepo.getMenuIngredient(menu);
     }
     public Ingredient addIngredientToAMenu(Ingredient ingredient){
         ingredientRepo.save(ingredient);
@@ -65,7 +65,7 @@ public class MenuService {
             throw new RuntimeException("the menu does not exist.");
         }
         Instant now = Instant.now();
-        List<Ingredient> ingredients = ingredientRepo.getMenuIngredient(menu);
+        List<Ingredient> ingredients = menuRepo.getMenuIngredient(menu);
         checkIfIngredientRequiredIsOk(restaurant, ingredients);
         for (Ingredient ingredient : ingredients) {
             movementRepo.save(new Movement(1, now, ingredient.getIngredientTemplate(), MovementType.SALE,
