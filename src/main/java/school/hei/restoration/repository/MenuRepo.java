@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import school.hei.restoration.config.Database;
 import school.hei.restoration.repository.model.Menu;
+import school.hei.restoration.repository.model.MenuPrices;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,6 +16,8 @@ import java.util.List;
 @Repository
 @AllArgsConstructor
 public class MenuRepo {
+    private final MenuPricesRepo menuPricesRepo;
+    private final IngredientRepo ingredientRepo;
     private Database connection;
     public void save(Menu menu){
         String sql = """
@@ -36,9 +39,13 @@ public class MenuRepo {
         try (PreparedStatement statement = connection.getConnection().prepareStatement(sql)){
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
+                int menuId = resultSet.getInt("id");
+                Menu menu = getMenuById(menuId);
                 menus.add(new Menu(
-                        resultSet.getInt("id"),
-                        resultSet.getString("name")
+                        menuId,
+                        resultSet.getString("name"),
+                        menuPricesRepo.getMenuPrices(menu),
+                        ingredientRepo.getMenuIngredient(menu)
                 ));
             }
             return menus;
@@ -54,9 +61,15 @@ public class MenuRepo {
             statement.setInt(1, id);
 
             ResultSet resultSet = statement.executeQuery();
-            return new Menu(
+            Menu menu =  new Menu(
                     resultSet.getInt("id"),
                     resultSet.getString("name")
+            );
+            return new Menu(
+                    menu.getId(),
+                    menu.getName(),
+                    menuPricesRepo.getMenuPrices(menu),
+                    ingredientRepo.getMenuIngredient(menu)
             );
         } catch (SQLException e) {
             throw new RuntimeException(e);
