@@ -66,7 +66,7 @@ class IngredientServiceTest {
 
         assertEquals(2, ingredientMostUsedByMenus.size());
 
-        IngredientMostUsedByMenu result1 = ingredientMostUsedByMenus.get(0);
+        IngredientMostUsedByMenu result1 = ingredientMostUsedByMenus.getFirst();
         assertEquals(1, result1.getIngredientTemplate().getId());
         assertEquals("bread", result1.getIngredientTemplate().getName());
         assertEquals(burger, result1.getMenu());

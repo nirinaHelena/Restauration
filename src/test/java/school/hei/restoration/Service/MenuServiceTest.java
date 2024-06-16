@@ -159,6 +159,7 @@ class MenuServiceTest {
 
         when(menuRepo.getMenuIngredient(menu)).thenReturn(ingredients);
         when(stockRepo.currentQuantity(restaurant, bread.getIngredientTemplate())).thenReturn(currentStock);
+        when(menuRepo.getMenuById(menu.getId())).thenReturn(menu);
 
         // When
         Menu result = menuService.saleMenu(menu, restaurant);
