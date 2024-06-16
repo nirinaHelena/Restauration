@@ -60,6 +60,10 @@ public class MenuService {
         }
     }
     public Menu saleMenu(Menu menu, Restaurant restaurant){
+        Menu menu1 = menuRepo.getMenuById(menu.getId());
+        if (menu1 == null){
+            throw new RuntimeException("the menu does not exist.");
+        }
         Instant now = Instant.now();
         List<Ingredient> ingredients = ingredientRepo.getMenuIngredient(menu);
         checkIfIngredientRequiredIsOk(restaurant, ingredients);
